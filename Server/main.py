@@ -6,9 +6,9 @@ from typing import Union,Set
 app = FastAPI()
 
 class TudeValue(BaseModel):
-  degrees: int
-  minutes: int
-  seconds: int
+  degrees: str
+  minutes: str
+  seconds: str
 
 # リクエストbodyを定義
 class GpsDataSet(BaseModel):
@@ -23,7 +23,7 @@ class Hello(BaseModel):
 @app.post("/")
 # 上で定義したUserモデルのリクエストbodyをuserで受け取る
 # user = {"user_id": 1, "name": "太郎"}
-def create_user(item: Hello):
-  print(item.hello)
+def create_user(item: TudeValue):
+  print(item.degrees)
   # レスポンスbody
   return "hello"
