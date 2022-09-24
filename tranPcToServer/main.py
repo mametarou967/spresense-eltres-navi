@@ -56,8 +56,12 @@ def postGpsData(gpsDataSet):
     method = "POST"
     headers = {"Content-Type" : "application/json"}
     # PythonオブジェクトをJSONに変換する
+    print(type(gpsDataSet.latitude.minutes))
     obj = {
-        "hello" : "hello"
+        "degrees" : gpsDataSet.latitude.degrees,
+        "minutes" : gpsDataSet.latitude.minutes,
+        "seconds" : gpsDataSet.latitude.seconds
+        #"hello" : "hello"
         #"latitude" : {
         #    "degrees" : gpsDataSet.latitude.degrees,
         #    "minuts" : gpsDataSet.latitude.minutes,
