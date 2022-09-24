@@ -3,7 +3,6 @@ path = "c:/XXX"
 url = "YYY.com"
 
 
-
 #import
 import os
 import csv
@@ -55,13 +54,20 @@ def getLastestGpsData(csvFilePath):
     return GpsDataSet(latDegrees,latMinutesSeconds,longDegrees,longMinutesSeconds,csvList[1][9])
 
 def getGpsDataJson(gpsDataSet):
+    latitude = round(
+        float(gpsDataSet.latitude.degrees) + 
+        ((float(gpsDataSet.latitude.minutes) + float(gpsDataSet.latitude.seconds) / 6000) / 60)
+        ,6)
+    longtiude = round(
+        float(gpsDataSet.longitude.degrees) + 
+        ((float(gpsDataSet.longitude.minutes) + float(gpsDataSet.longitude.seconds) / 6000) / 60)
+        ,6)
+    
+    print(latitude)
+    print(longtiude)
     obj = {
-        "latDegrees" : gpsDataSet.latitude.degrees,
-        "latMinutes" : gpsDataSet.latitude.minutes,
-        "latSeconds" : gpsDataSet.latitude.seconds,
-        "longDegrees" : gpsDataSet.longitude.degrees,
-        "longMinutes" : gpsDataSet.longitude.minutes,
-        "longSeconds" : gpsDataSet.longitude.seconds,
+        "latitude" : latitude,
+        "longtiude" : longtiude,
         "timeStamp" : gpsDataSet.timeStamp
         } 
     json_data = json.dumps(obj).encode("utf-8")
@@ -97,6 +103,8 @@ client.on_publish = on_publish         # メッセージ送信時のコールバ
 client.connect(url, 1883, 60)  # 接続先は自分自身
 # 通信処理スタート
 client.loop_start()    # subはloop_forever()だが，pubはloop_start()で起動だけさせる
+print("publish")
+print(gpsDataSetJson)
 client.publish("eltres",gpsDataSetJson) 
 
 # 出力
@@ -107,7 +115,6 @@ print(gpsDataSet.longitude.degrees)
 print(gpsDataSet.longitude.minutes)
 print(gpsDataSet.longitude.seconds)
 print(gpsDataSet.timeStamp)
-
 
 
 
